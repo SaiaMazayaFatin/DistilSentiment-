@@ -28,6 +28,8 @@ def load_tokenizer_model():
     model.load_state_dict(torch.load("model/distilbert/distilbert_sentiment_state_dict.pt", map_location=torch.device("cpu")))
     model.eval()
     return tokenizer, model
+    
+tokenizer, model = load_tokenizer_model()
 
 # Header
 st.markdown("""
