@@ -15,13 +15,19 @@ st.set_page_config(page_title="Sentimen Analisis", page_icon="💬", layout="cen
 @st.cache_resource
 def load_tokenizer_model():
     tokenizer = DistilBertTokenizer.from_pretrained("model/distilbert/tokenizer")
-    config = DistilBertConfig.from_pretrained("distilbert-base-uncased", num_labels=3)
+
+    config = DistilBertConfig(
+        num_labels=3,  # sesuaikan dengan saat training
+        vocab_size=30522,  # default distilBERT
+        hidden_size=768,
+        n_heads=12,
+        n_layers=6
+    )
+
     model = DistilBertForSequenceClassification(config)
     model.load_state_dict(torch.load("model/distilbert/distilbert_sentiment_state_dict.pt", map_location=torch.device("cpu")))
     model.eval()
     return tokenizer, model
-
-tokenizer, model = load_tokenizer_model()
 
 # Header
 st.markdown("""
